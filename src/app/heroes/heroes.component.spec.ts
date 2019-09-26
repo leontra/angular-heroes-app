@@ -63,6 +63,7 @@ describe('HeroesComponent', () => {
     
     const fixture: ComponentFixture<HeroesComponent> = TestBed.createComponent(HeroesComponent);
     const app: any = fixture.debugElement.componentInstance;
+    fixture.detectChanges();
     app.heroes = [ {id: 1, name: "test"} ];
     fixture.detectChanges();
     
@@ -73,7 +74,7 @@ describe('HeroesComponent', () => {
     fixture.detectChanges();
     expect(app.selectedHero.id).toBe(1);
     expect(app.selectedHero.name).toBe("test");
-
+    
   });
 
 });

@@ -9,8 +9,14 @@ import { Component } from '@angular/core';
 })
 class HeroesComponent {}
 
+@Component({
+  selector: 'app-messages',
+  template: '<p>Messages</p>'
+})
+class MessagesComponent {}
+
 describe('AppComponent', () => {
-  
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -18,7 +24,8 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        HeroesComponent
+        HeroesComponent,
+        MessagesComponent
       ],
     }).compileComponents();
   }));
@@ -47,6 +54,13 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('app-heroes')).toBeTruthy();
+  });
+
+  it('should contain the messages component', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('app-messages')).toBeTruthy();
   });
 
 });
