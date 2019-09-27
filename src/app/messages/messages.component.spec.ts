@@ -77,7 +77,6 @@ describe('MessagesComponent', () => {
     
     fixture.detectChanges();
     expect(app.messageService.messages.length).toBe(0);
-
     
   });
 

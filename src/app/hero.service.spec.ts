@@ -20,4 +20,14 @@ describe('HeroService', () => {
     });
   });
 
+  it('should have a method for get the hero given the id', done => {
+    const service: HeroService = TestBed.get(HeroService);
+    const heroes = service.getHero(11);
+    heroes.subscribe(hero => {
+      expect(hero).toBeTruthy();
+      expect(hero.id).toBe(11);
+      done();
+    });
+  });
+
 });
