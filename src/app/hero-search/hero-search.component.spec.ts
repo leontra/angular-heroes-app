@@ -9,6 +9,7 @@ import { InMemoryDataService } from '../in-memory-data.service';
 import { HeroSearchComponent } from './hero-search.component';
 import { Subject, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { doesNotThrow } from 'assert';
 
 describe('HeroSearchComponent', () => {
   let component: HeroSearchComponent;
@@ -109,5 +110,21 @@ describe('HeroSearchComponent', () => {
     expect(linkTwo).toBeTruthy();
     expect(linkTwo.getAttribute('href')).toEqual('/detail/2');
     expect(linkTwo.textContent).toContain('test_02');
+  });
+
+  it('should call the hero service search method on search input', 
+  (done) => {
+    const fixture = TestBed.createComponent(HeroSearchComponent);
+    const app: any = fixture.debugElement.componentInstance;
+    fixture.detectChanges();
+
+    app.heroes$.subscribe(result => {
+      expect(result.length).toBe(1);
+      expect(result[0].name).toBe('Narco');
+      done();
+    });
+
+    app.search("Narco");
+    fixture.detectChanges();
   });
 });

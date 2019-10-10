@@ -121,6 +121,15 @@ describe('HeroService', () => {
     });
   });
 
+  it('should have a service for searchHeroes given an empty name', done => {
+    const service: HeroService = TestBed.get(HeroService);
+    service.searchHeroes(" ")
+    .subscribe( heroes => {
+      expect(heroes.length).toEqual(0);
+      done();
+    });
+  });
+
   it('should have a service for searchHeroes given partial name', done => {
     const service: HeroService = TestBed.get(HeroService);
     service.searchHeroes("Dr")

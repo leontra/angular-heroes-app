@@ -7,12 +7,16 @@ import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from '../in-memory-data.service';
 
 import { RouterTestingModule } from '@angular/router/testing';
+import {ActivatedRoute, convertToParamMap, Params} from '@angular/router';
 import { HeroDetailComponent } from './hero-detail.component';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
+import { doesNotThrow } from 'assert';
+
 
 describe('HeroDetailComponent', () => {
   let component: HeroDetailComponent;
   let fixture: ComponentFixture<HeroDetailComponent>;
+  let params: Subject<Params>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -24,6 +28,20 @@ describe('HeroDetailComponent', () => {
         HttpClientInMemoryWebApiModule.forRoot(
           InMemoryDataService, { dataEncapsulation: false }
         )
+      ],
+      providers: [
+        { 
+          provide: ActivatedRoute, 
+          useValue: {
+            params: {
+                subscribe: (fn: (value: Params) => void) => fn({
+                    tab: 0,
+                }),
+            },
+            snapshot: { 
+              paramMap: convertToParamMap( { 'id': '11' } ) } 
+          }
+        }
       ]
     })
     .compileComponents();
@@ -47,18 +65,18 @@ describe('HeroDetailComponent', () => {
     expect(compiled.querySelector('h2')).toBeNull();
   });
 
-  it('should render the hero selected details', () => {
-    const fixture = TestBed.createComponent(HeroDetailComponent);
-    const app: any = fixture.debugElement.componentInstance;
+  it('should render the hero after get it and selected details', (done) => {
     fixture.detectChanges();
-    app.hero = {id: 1, name: "test"};
     
-    const compiled = fixture.debugElement.nativeElement;
-    fixture.detectChanges();
-    expect(compiled.querySelector('h2').textContent).toContain('TEST');
-    expect(compiled.querySelectorAll('div')[0].textContent).toContain('id: 1');
-    expect(compiled.querySelector('input').placeholder).toBe('name');
-    expect(compiled.querySelector('label').textContent).toContain('name: ');
+    setTimeout( () => {
+      fixture.detectChanges();
+      const compiled = fixture.debugElement.nativeElement;
+      expect(compiled.querySelector('h2').textContent).toContain('DR NICE');
+      expect(compiled.querySelectorAll('div')[0].textContent).toContain('id: 11');
+      expect(compiled.querySelector('input').placeholder).toBe('name');
+      expect(compiled.querySelector('label').textContent).toContain('name: ');
+      done();
+    }, 500);
   });
 
   it('should have a button for going back', (done) => {

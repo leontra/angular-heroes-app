@@ -166,6 +166,18 @@ describe('HeroesComponent', () => {
     done();
   });
   
+  it('should not send a new hero to service if is empty', done => {
+    const fixture = TestBed.createComponent(HeroesComponent);
+    const app: any = fixture.debugElement.componentInstance;
+    app.heroes = [];
+    fixture.detectChanges();
+
+    app.add(' ');
+
+    expect(app.heroes.length).toEqual(0);
+    done();
+  });
+  
   it('should delete the given hero from service', done => {
     const fixture = TestBed.createComponent(HeroesComponent);
     const app: any = fixture.debugElement.componentInstance;
